@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  coredns:
+    image: coredns/coredns:latest
+    command:
+     - -conf
+     - /root/Corefile
+    ports:
+     - '53:53'
+     - 53:53/udp
+    volumes:
+     - coredns_config:/root/:ro
+    logging:
+      driver: json-file
+volumes:
+  coredns_config:
+    external: true
