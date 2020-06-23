@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  ddclient:
+    image: linuxserver/ddclient:arm32v7-latest
+    environment:
+      PGID: '1000'
+      PUID: '1000'
+      TZ: Asia/Seoul
+    volumes:
+     - /home/pi/ddclientconfig:/config
+    logging:
+      driver: json-file
+    deploy:
+      placement:
+        constraints:
+         - node.hostname == pi-master
