@@ -1,0 +1,91 @@
+version: '3.3'
+services:
+  agent:
+    image: swarmpit/agent:latest
+    environment:
+      DOCKER_API_VERSION: '1.35'
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+     - net
+    logging:
+      driver: json-file
+    deploy:
+      mode: global
+      labels:
+        swarmpit.agent: 'true'
+      resources:
+        reservations:
+          memory: 32M
+        limits:
+          memory: 64M
+  app:
+    image: swarmpit/swarmpit:latest
+    environment:
+      SWARMPIT_DB: http://db:5984
+      SWARMPIT_INFLUXDB: http://influxdb:8086
+    ports:
+     - 9000:8080
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+     - net
+     - traefik_net
+    logging:
+      driver: json-file
+    deploy:
+      labels:
+        traefik.http.routers.swarmpit_app.service: swarmpit_app
+        raefik.http.routers.swarmpit_app.entrypoints: web
+        traefik.http.services.swarmpit_app.loadbalancer.server.port: '8080'
+        traefik.http.routers.swarmpit_app.rule: Host(`manager.local.swarm`)
+        traefik.docker.network: traefik_net
+        traefik.enable: 'true'
+      placement:
+        constraints:
+         - node.role == manager
+      resources:
+        reservations:
+          memory: 512M
+        limits:
+          memory: 1024M
+  db:
+    image: treehouses/couchdb:2.3.0
+    labels:
+      node.role: =manager
+    volumes:
+     - db-data:/opt/couchdb/data
+    networks:
+     - net
+    logging:
+      driver: json-file
+    deploy:
+      resources:
+        reservations:
+          memory: 128M
+        limits:
+          memory: 256M
+  influxdb:
+    image: influxdb:1.7
+    volumes:
+     - influx-data:/var/lib/influxdb
+    networks:
+     - net
+    logging:
+      driver: json-file
+    deploy:
+      resources:
+        reservations:
+          memory: 128M
+        limits:
+          memory: 256M
+networks:
+  net:
+    driver: overlay
+  traefik_net:
+    external: true
+volumes:
+  db-data:
+    driver: local
+  influx-data:
+    driver: local
