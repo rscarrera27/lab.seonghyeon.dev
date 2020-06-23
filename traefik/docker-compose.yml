@@ -1,0 +1,34 @@
+version: '3.3'
+services:
+  traefik:
+    image: traefik:latest
+    command:
+     - --providers.docker=true
+     - --entryPoints.web.address=:80
+     - --providers.providersThrottleDuration=2s
+     - --providers.docker.watch=true
+     - --providers.docker.swarmMode=true
+     - --providers.docker.swarmModeRefreshSeconds=15s
+     - --providers.docker.exposedbydefault=false
+     - --providers.docker.defaultRule=Host("local.swarm")
+     - --accessLog.bufferingSize=0
+     - --api=true
+     - --api.dashboard=true
+     - --api.insecure=true
+     - --ping.entryPoint=web
+    ports:
+     - 80:80
+     - 8080:8080
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+     - traefik_net
+    logging:
+      driver: json-file
+    deploy:
+      placement:
+        constraints:
+         - node.role == manager
+networks:
+  traefik_net:
+    external: true
