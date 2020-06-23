@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  viz:
+    image: alexellis2/visualizer-arm:latest
+    ports:
+     - 8000:8080
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+     - traefik_net
+    logging:
+      driver: json-file
+    deploy:
+      labels:
+        raefik.http.routers.viz.entrypoints: web
+        traefik.docker.network: traefik_net
+        traefik.enable: 'true'
+        traefik.http.routers.viz.rule: Host(`viz.local.swarm`)
+        traefik.http.routers.viz.service: viz
+        traefik.http.services.viz.loadbalancer.server.port: '8080'
+      placement:
+        constraints:
+         - node.role==manager
+networks:
+  traefik_net:
+    external: true
