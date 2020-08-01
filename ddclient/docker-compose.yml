@@ -7,10 +7,10 @@ services:
       PUID: '1000'
       TZ: Asia/Seoul
     volumes:
-     - /home/pi/ddclientconfig:/config
+     - ddclient_config:/config
     logging:
       driver: json-file
     deploy:
       placement:
         constraints:
-         - node.hostname == pi-master
+         - node.role == manager
