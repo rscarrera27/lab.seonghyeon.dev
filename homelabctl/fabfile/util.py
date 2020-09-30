@@ -13,19 +13,19 @@ class TermColors:
 
 
 def warn(t):
-    print(TermColors.WARNING + t + TermColors.ENDC)
+    print(TermColors.WARNING + "[ WARN ] " + t + TermColors.ENDC)
 
 
 def error(t):
-    print(TermColors.FAIL + t + TermColors.ENDC)
+    print(TermColors.FAIL + "[ ERR! ] " + t + TermColors.ENDC)
 
 
 def ok(t):
-    print(TermColors.OKGREEN + t + TermColors.ENDC)
+    print(TermColors.OKGREEN + "[ OK ] " + t + TermColors.ENDC)
 
 
 def log(t):
-    print(TermColors.OKBLUE + t + TermColors.ENDC)
+    print(TermColors.OKBLUE + "[ INFO ] " + t + TermColors.ENDC)
 
 
 @task
