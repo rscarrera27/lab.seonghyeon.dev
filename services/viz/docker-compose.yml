@@ -13,7 +13,7 @@ services:
         constraints:
          - node.role == manager
       labels:
-        raefik.http.routers.viz.entrypoints: web
+        traefik.http.routers.viz.entrypoints: web
         traefik.docker.network: traefik_net
         traefik.enable: 'true'
         traefik.http.routers.viz.rule: Host(`viz.swarm`)
