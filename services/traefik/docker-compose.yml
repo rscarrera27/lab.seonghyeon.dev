@@ -31,4 +31,4 @@ services:
          - node.role == manager
 networks:
   traefik_net:
-    external: true
+    driver: overlay
