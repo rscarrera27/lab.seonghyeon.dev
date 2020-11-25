@@ -38,7 +38,7 @@ services:
         traefik.http.routers.swarmpit_app.service: swarmpit_app
         raefik.http.routers.swarmpit_app.entrypoints: web
         traefik.http.services.swarmpit_app.loadbalancer.server.port: '8080'
-        traefik.http.routers.swarmpit_app.rule: Host(`manager.local.swarm`)
+        traefik.http.routers.swarmpit_app.rule: Host(`control.swarm`)
         traefik.docker.network: traefik_net
         traefik.enable: 'true'
       placement:
