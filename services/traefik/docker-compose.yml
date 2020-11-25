@@ -28,7 +28,7 @@ services:
     deploy:
       placement:
         constraints:
-         - node.role == manager
+         - node.hostname == pi-node-01
 networks:
   traefik_net:
     driver: overlay
