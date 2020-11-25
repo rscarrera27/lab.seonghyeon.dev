@@ -50,7 +50,7 @@ services:
         limits:
           memory: 1024M
   db:
-    image: treehouses/couchdb:2.3.0
+    image: treehouses/couchdb:2.3.1
     labels:
       node.role: =manager
     volumes:
