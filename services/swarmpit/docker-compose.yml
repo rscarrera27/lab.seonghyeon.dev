@@ -30,7 +30,7 @@ services:
      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
      - net
-     - traefik_net
+     - traefik_traefik_net
     logging:
       driver: json-file
     deploy:
@@ -82,7 +82,7 @@ services:
 networks:
   net:
     driver: overlay
-  traefik_net:
+  traefik_traefik_net:
     external: true
 volumes:
   db-data:
