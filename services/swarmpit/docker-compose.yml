@@ -60,6 +60,9 @@ services:
     logging:
       driver: json-file
     deploy:
+      placement:
+        constraints:
+         - node.hostname == pi-node-02
       resources:
         reservations:
           memory: 128M
@@ -74,6 +77,9 @@ services:
     logging:
       driver: json-file
     deploy:
+      placement:
+        constraints:
+         - node.hostname == pi-node-03
       resources:
         reservations:
           memory: 128M
